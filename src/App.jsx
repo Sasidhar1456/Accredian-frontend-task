@@ -8,6 +8,12 @@ import './App.css'; // Import the CSS file for styling
 const App = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
 
   const handleToggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -15,6 +21,30 @@ const App = () => {
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleChange = (field) => (e) => {
+    setFormData({
+      ...formData,
+      [field]: e.target.value,
+    });
+  };
+
+  const handleSubmit = () => {
+    // Validate form fields
+    if (!formData.email || !formData.password || (isSignUp && (!formData.username || !formData.confirmPassword))) {
+      alert('All fields are required!');
+      return;
+    }
+
+    // Perform login or signup logic here
+    if (isSignUp) {
+      // Handle signup
+      alert('Sign up successful!');
+    } else {
+      // Handle login
+      alert('Login successful!');
+    }
   };
 
   return (
@@ -25,9 +55,25 @@ const App = () => {
         </Typography>
         <FormControl fullWidth>
           {isSignUp && (
-            <TextField label="Username" variant="outlined" margin="normal" required fullWidth />
+            <TextField
+              label="Username"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              value={formData.username}
+              onChange={handleChange('username')}
+            />
           )}
-          <TextField label="Email" variant="outlined" margin="normal" required fullWidth />
+          <TextField
+            label="Email"
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            value={formData.email}
+            onChange={handleChange('email')}
+          />
           <TextField
             label="Password"
             variant="outlined"
@@ -35,6 +81,8 @@ const App = () => {
             margin="normal"
             required
             fullWidth
+            value={formData.password}
+            onChange={handleChange('password')}
             InputLabelProps={{ shrink: true }}
             InputProps={{
               endAdornment: (
@@ -54,14 +102,26 @@ const App = () => {
               margin="normal"
               required
               fullWidth
+              value={formData.confirmPassword}
+              onChange={handleChange('confirmPassword')}
             />
           )}
-          <Button variant="contained" color="primary" fullWidth>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleSubmit}
+            style={{ margin: '1rem 0', textTransform: 'none' }} // Added textTransform and margin styles
+          >
             {isSignUp ? 'Sign Up' : 'Login'}
           </Button>
-          <Typography align="center" style={{ marginTop: '1rem' }}>
-            <Button color="primary" onClick={handleToggleForm}>
-              {isSignUp ? 'Already have an account? Login' : 'Don\'t have an account? Sign Up'}
+          <Typography align="center">
+            <Button
+              
+              onClick={handleToggleForm}
+              
+            >
+              {isSignUp ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
             </Button>
           </Typography>
         </FormControl>
@@ -71,6 +131,9 @@ const App = () => {
 };
 
 export default App;
+
+
+
 
 
 
