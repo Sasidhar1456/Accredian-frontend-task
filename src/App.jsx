@@ -33,7 +33,7 @@ const App = () => {
   const handleSubmit = () => {
     // Validate form fields
     if (!formData.email || !formData.password || (isSignUp && (!formData.username || !formData.confirmPassword))) {
-      alert('All fields are required!');
+      alert('Please fill all fields');
       return;
     }
 
